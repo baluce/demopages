@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Geocoding service</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 85%;
+      }
+    </style>
+  </head>
+  <body>
+  <div id="map"></div>
+    <div>
+      <input id="address" type="textbox" value="" placeholder="請輸入查詢文字" style="width:250px">
+      <input id="submit" type="button" value="定位">
+    </div>
+    <label id="showbox"></label>
+    <script>
+var mymarker = null;
+
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 10,
+    center: {lat: 25.033493, lng: 121.564101}//25.033493,121.564101
+  });
+  var geocoder = new google.maps.Geocoder();
+
+  document.getElementById('submit').addEventListener('click', function() {
+    geocodeAddress(geocoder, map);
+  });
+}
+
+function geocodeAddress(geocoder, resultsMap) {
+
+  var address = document.getElementById('address').value;
+
+  geocoder.geocode({'address': address}, function(results, status) {
+    if (status === google.maps.GeocoderStatus.OK) {
+
+      if(mymarker)
+      mymarker.setMap(null);
+
+      resultsMap.setCenter(results[0].geometry.location);
+
+       mymarker = new google.maps.Marker({
+        map: resultsMap,
+        position: results[0].geometry.location,
+        draggable: true
+      });
+
+      mymarker.addListener('dragend', function(event){
+        document.getElementById('showbox').innerText = event.latLng ;
+      });
+
+      document.getElementById('showbox').innerText = results[0].geometry.location;
+    } else {
+
+      document.getElementById('showbox').innerText = "";
+
+      if(mymarker)
+      mymarker.setMap(null);
+
+      alert('定位失敗: ' + status);
+    }
+  });
+}
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap"
+        async defer></script>
+  </body>
+</html>
