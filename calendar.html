@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="calendarApp">
+
+<head>
+  <meta charset="UTF-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+  <script>
+    /// <reference path="typings/tsd.d.ts" />
+    var calendarApp = angular.module('calendarApp',[]);
+  </script>
+</head>
+
+<body>
+  <h3>Google日曆產生器</h3>
+  
+  <div>
+    <div>
+      <label>事件標題:</label>
+      <input type="text" ng-model="title" placeholder="">
+    </div>
+    <div>
+      <label>起始日期:</label>
+      <input type="text" ng-model="startdate" placeholder="yyyyMMdd">
+    </div>
+    <div>
+      <label>起始時間:</label>
+      <input type="text" ng-model="starttime" placeholder="HHmmss注意時間+8問題">
+    </div>
+    <div>
+      <label>結束日期:</label>
+      <input type="text" ng-model="enddate" placeholder="yyyyMMdd">
+    </div>
+    <div>
+      <label>結束時間:</label>
+      <input type="text" ng-model="endtime" placeholder="HHmmss注意時間+8問題">
+    </div>
+    <div>
+      <label>事件地點:</label>
+      <input type="text" ng-model="location" placeholder="">
+    </div>
+    <div>
+      <label>詳細描述:</label>
+      <input type="text" ng-model="details" placeholder="">
+      <a href="https://www.google.com/calendar/render?action=TEMPLATE&dates={{startdate}}T{{starttime}}Z/{{enddate}}T{{endtime}}Z&details={{details}}&text={{title}}&location={{location}}"
+        target="_blank">開啟</a>
+    </div>
+    <iframe src="https://calendar.google.com/calendar/embed?ctz=Asia/Taipei" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+</body>
+</html>
